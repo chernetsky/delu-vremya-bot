@@ -1,0 +1,23 @@
+{
+  "name": "tanadugBot",
+  "version": "1.0.0",
+  "description": "The best Telegram todo bot.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chernetsky/tanadug-bot.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chernetsky/tanadug-bot/issues"
+  },
+  "homepage": "https://github.com/chernetsky/tanadug-bot#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.4"
+  }
+}
