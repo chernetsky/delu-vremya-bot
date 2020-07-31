@@ -19,5 +19,8 @@
   "homepage": "https://github.com/chernetsky/tanadug-bot#readme",
   "devDependencies": {
     "nodemon": "^2.0.4"
+  },
+  "dependencies": {
+    "telegraf": "^3.38.0"
   }
 }
