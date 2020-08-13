@@ -1,0 +1,16 @@
+# 
+version: '3.1'
+
+volumes:
+  dbdata:
+
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: db123
+    ports:
+      - 5432:5432
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
