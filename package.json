@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/chernetsky/tanadug-bot#readme",
   "devDependencies": {
+    "eslint": "^7.6.0",
     "nodemon": "^2.0.4"
   },
   "dependencies": {
