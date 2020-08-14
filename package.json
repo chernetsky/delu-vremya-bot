@@ -1,5 +1,5 @@
 {
-  "name": "tanadug-bot",
+  "name": "delu-vremya-bot",
   "version": "1.0.0",
   "description": "The best Telegram todo bot.",
   "main": "index.js",

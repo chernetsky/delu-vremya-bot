@@ -4,6 +4,7 @@ const run = (models) => {
   const { Deal } = models;
   const bot = new Telegraf(process.env.BOT_TOKEN);
 
+  console.log('run')
   bot.use(async (ctx, next) => {
     const start = new Date();
     await next();
