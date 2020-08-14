@@ -8,15 +8,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/chernetsky/tanadug-bot.git"
+    "url": "git+https://github.com/chernetsky/delu-vremya-bot.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/chernetsky/tanadug-bot/issues"
+    "url": "https://github.com/chernetsky/delu-vremya-bot/issues"
   },
-  "homepage": "https://github.com/chernetsky/tanadug-bot#readme",
+  "homepage": "https://github.com/chernetsky/delu-vremya-bot#readme",
   "devDependencies": {
     "eslint": "^7.6.0",
     "nodemon": "^2.0.4"
