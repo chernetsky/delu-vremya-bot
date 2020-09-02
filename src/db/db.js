@@ -1,5 +1,6 @@
 const { Sequelize } = require('sequelize');
 const initDeal = require('./Deal');
+const initList = require('./List');
 
 const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
 
@@ -33,12 +34,22 @@ const testConnection = async (syncOptions = null) => {
 
 // Init models
 const Deal = initDeal(sequelize);
+const List = initList(sequelize);
+
+// Setup models associations
+List.hasMany(Deal, {
+  foreignKey: 'listId'
+});
+Deal.belongsTo(List, {
+  foreignKey: 'listId'
+});
 
 module.exports = {
   sequelize,
   testDbConnection: testConnection,
 
   models: {
-    Deal
+    Deal,
+    List
   }
 };

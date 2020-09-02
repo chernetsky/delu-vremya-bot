@@ -23,21 +23,28 @@ module.exports = (sequelize) => {
       deadline: {
         type: DataTypes.DATE
       },
-      userid: {
+      userId: {
         type: DataTypes.STRING(255),
         allowNull: false
       },
       username: {
         type: DataTypes.STRING(255),
         allowNull: false
-      }
+      },
+      listId: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
     },
     {
       tableName: 'deals',
       indexes: [
         {
-          fields: ['userid']
-        }
+          fields: ['userId']
+        },
+        {
+          fields: ['listId']
+        },
       ]
     }
   );

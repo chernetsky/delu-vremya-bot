@@ -1,5 +1,5 @@
 const { testDbConnection, models } = require('./db/db');
-const { run } = require('./tg/tg');
+const run = require('./tg/tg');
 
 testDbConnection(/* { force: true } */)
   .then(() => run(models))
