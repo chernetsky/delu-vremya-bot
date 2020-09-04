@@ -5,41 +5,54 @@ const Stage = require('telegraf/stage');
 const dealCreate = require('./deal/create');
 const listView = require('./list/view');
 
-const run = async ({ Deal, List }) => {
-  console.log(`run() - ${Date.now()}`);
-
-  // const list1 = await List.create({ name: 'Дела 1' });
-  // const list2 = await List.create({ name: 'Дела 2' });
-  // const deal1 = await Deal.create({
-  //   text: 'Привет, Мир!',
-  //   name: 'Дела',
-  //   userId: 12345,
-  //   username: 'Sergey',
-  //   listId: list1.id
-  // });
-  // deal1.setList(list2)
-
+const run = async () => {
   const bot = new Telegraf(process.env.BOT_TOKEN);
 
-  const { enter, leave } = Stage;
+  const { enter /* , leave */ } = Stage;
 
   const stage = new Stage([listView, dealCreate], { default: 'list-view' });
 
   bot.use(session());
   bot.use(stage.middleware());
+  setupBasic(bot);
 
-  bot.command('list', enter('list-view'));
+  bot.command('show', enter('list-view'));
+
   bot.on('message', enter('deal-create'));
 
   dealCreate.leave(async (ctx) => {
-    const { deal: descriptor } = ctx.state;
-    if (descriptor) {
-      await Deal.create(descriptor);
+    if (ctx.scene.state.skipLeave) {
+      ctx.scene.state.skipLeave = false;
+    } else {
+      ctx.scene.state.skipLeave = true;
+      return ctx.scene.enter('list-view');
     }
-    ctx.scene.enter('list-view')
   });
 
   bot.launch();
+};
+
+const setupBasic = (bot) => {
+  bot.telegram.setMyCommands([
+    {
+      command: 'start',
+      description: 'Начни отсюда!'
+    },
+    {
+      command: 'show',
+      description: 'Показать основной список дел.'
+    }
+  ]);
+
+  bot.start((ctx) => {
+    // Setup default list
+    ctx.scene.enter('list-view');
+    // return ctx.reply('Что ты будешь делать?')
+  });
+
+  bot.help((ctx) => {
+    return ctx.reply('Скоро здесь появится справка...');
+  });
 };
 
 module.exports = run;

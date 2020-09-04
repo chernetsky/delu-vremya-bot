@@ -7,10 +7,23 @@ module.exports = (sequelize) => {
       name: {
         type: DataTypes.STRING(1000),
         allowNull: false
+      },
+      userId: {
+        type: DataTypes.STRING(255),
+        allowNull: false
+      },
+      default: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false
       }
     },
     {
-      tableName: 'lists'
+      tableName: 'lists',
+      indexes: [
+        {
+          fields: ['userId']
+        }
+      ]
     }
   );
 

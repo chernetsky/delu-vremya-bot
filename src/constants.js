@@ -9,6 +9,9 @@ const WHEN = {
   SUNDAY: 'sun'
 };
 
+const LIST_DEFAULT_NAME = 'Мои дела';
+
 module.exports = {
-  WHEN
+  WHEN,
+  LIST_DEFAULT_NAME
 };

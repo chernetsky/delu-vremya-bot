@@ -43,24 +43,26 @@ whenHandler.action(Object.keys(weekButtonDescriptors), (ctx) => {
   ctx.editMessageReplyMarkup(makeKeyboard(weekButtonDescriptors));
 });
 
+/**
+ * Exit 'deal-create' scene.
+ */
 whenHandler.action('done', (ctx) => {
-  // console.log(ctx.wizard.state.deal);
   return ctx.scene.leave();
 });
-whenHandler.use((ctx) => ctx.replyWithMarkdown('Нажмите `✅` для создания дела'));
+
+whenHandler.use((ctx) => ctx.replyWithMarkdown('Нажмите `✅` для завершения.'));
 
 const createWizard = new WizardScene(
   'deal-create-wizard',
   (ctx) => {
     const dealDescriptor = (ctx.wizard.state.deal = {
-      periodic: true, // DEBUG
-      listId: 1 // DEBUG
+      periodic: true // DEBUG
     });
     dealDescriptor.text = ctx.message.text;
     dealDescriptor.userId = ctx.message.from.id;
-    dealDescriptor.username = ctx.message.from.username;
 
     ctx.reply('Дни недели', makeKeyboard(weekButtonDescriptors).extra());
+
     return ctx.wizard.next();
   },
   whenHandler

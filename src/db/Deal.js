@@ -27,10 +27,6 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(255),
         allowNull: false
       },
-      username: {
-        type: DataTypes.STRING(255),
-        allowNull: false
-      },
       listId: {
         type: DataTypes.INTEGER,
         allowNull: false
