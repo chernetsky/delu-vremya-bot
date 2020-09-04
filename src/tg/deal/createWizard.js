@@ -14,7 +14,7 @@ const weekButtonDescriptors = {
   sunday: 'Вс'
 };
 
-let weekSelected = Object.keys(weekButtonDescriptors);
+let weekSelected = [];
 
 const makeKeyboard = r.compose(
   Markup.inlineKeyboard,
@@ -47,6 +47,7 @@ whenHandler.action(Object.keys(weekButtonDescriptors), (ctx) => {
  * Exit 'deal-create' scene.
  */
 whenHandler.action('done', (ctx) => {
+  ctx.deleteMessage();
   return ctx.scene.leave();
 });
 
@@ -55,6 +56,7 @@ whenHandler.use((ctx) => ctx.replyWithMarkdown('Нажмите `✅` для за
 const createWizard = new WizardScene(
   'deal-create-wizard',
   (ctx) => {
+    weekSelected = Object.keys(weekButtonDescriptors);
     const dealDescriptor = (ctx.wizard.state.deal = {
       periodic: true // DEBUG
     });

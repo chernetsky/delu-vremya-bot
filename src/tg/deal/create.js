@@ -1,7 +1,7 @@
 const Scene = require('telegraf/scenes/base');
 const createWizard = require('./createWizard');
 const { models: { Deal } } = require('../../db/db');
-const { getDefaultList } = require('../../helpers/helpers');
+const { getCurrentList } = require('../../helpers/helpers');
 
 // Deal creation scene
 const dealCreateScene = new Scene('deal-create');
@@ -17,8 +17,8 @@ dealCreateScene.leave(async (ctx, next) => {
     const { deal: descriptor } =  ctx.wizard.state;
 
     if (descriptor) {
-      const defaultList  = await getDefaultList(descriptor.userId);
-      descriptor.listId = defaultList.id;
+      const currentList  = await getCurrentList(descriptor.userId);
+      descriptor.listId = currentList.id;
   
       const deal = await Deal.create(descriptor);
   

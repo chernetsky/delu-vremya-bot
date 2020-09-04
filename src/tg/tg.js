@@ -45,9 +45,7 @@ const setupBasic = (bot) => {
   ]);
 
   bot.start((ctx) => {
-    // Setup default list
     ctx.scene.enter('list-view');
-    // return ctx.reply('Что ты будешь делать?')
   });
 
   bot.help((ctx) => {

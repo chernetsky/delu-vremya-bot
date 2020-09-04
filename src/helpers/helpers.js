@@ -1,25 +1,24 @@
+const r = require('ramda');
 const {
   models: { List }
 } = require('../db/db');
 const { LIST_DEFAULT_NAME } = require('../constants');
 
-const getDefaultList = async (userId) => {
+const getCurrentList = async (userId) => {
   userId = String(userId);
-  
-  let defaultList = await List.findOne({
-    where: {
-      userId,
-      default: true
-    }
-  });
 
-  if (!defaultList) {
-    defaultList = await List.create({ name: LIST_DEFAULT_NAME, userId, default: true });
+  const userLists = await List.findAll({ where: { userId } });
+  
+  let list = r.find(r.propEq('current', true))(userLists);
+
+  if (!list) {
+    // Create new list
+    list = await List.create({ name: LIST_DEFAULT_NAME, userId, current: true });
   }
 
-  return defaultList;
+  return list;
 };
 
 module.exports = {
-  getDefaultList
+  getCurrentList
 };
