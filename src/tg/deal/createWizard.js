@@ -25,6 +25,24 @@ const makeKeyboard = r.compose(
   r.toPairs
 );
 
+/**
+ * Init step.
+ * 
+ * @param {Object} ctx 
+ */
+const initStep = (ctx) => {
+  weekSelected = Object.keys(weekButtonDescriptors);
+  const dealDescriptor = (ctx.wizard.state.deal = {
+    periodic: true // DEBUG
+  });
+  dealDescriptor.text = ctx.message.text;
+  dealDescriptor.userId = ctx.message.from.id;
+
+  ctx.reply('Дни недели', makeKeyboard(weekButtonDescriptors).extra());
+
+  return ctx.wizard.next();
+};
+
 const whenHandler = new Composer();
 
 /**
@@ -55,18 +73,7 @@ whenHandler.use((ctx) => ctx.replyWithMarkdown('Нажмите `✅` для за
 
 const createWizard = new WizardScene(
   'deal-create-wizard',
-  (ctx) => {
-    weekSelected = Object.keys(weekButtonDescriptors);
-    const dealDescriptor = (ctx.wizard.state.deal = {
-      periodic: true // DEBUG
-    });
-    dealDescriptor.text = ctx.message.text;
-    dealDescriptor.userId = ctx.message.from.id;
-
-    ctx.reply('Дни недели', makeKeyboard(weekButtonDescriptors).extra());
-
-    return ctx.wizard.next();
-  },
+  initStep,
   whenHandler
 );
 
