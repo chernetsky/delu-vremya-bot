@@ -3,11 +3,12 @@ const Scene = require('telegraf/scenes/base');
 const Markup = require('telegraf/markup');
 const { split: chunksSplit } = require('split-text-to-chunks');
 const pixelWidth = require('string-pixel-width');
-const {
-  models: { Deal, List }
-} = require('../../db/db');
+const { models } = require('../../db/db');
 const { getCurrentList } = require('../../helpers/helpers');
-const { TEXT_METRICS, PIXEL_WIDTH_SETTINGS } = require('../../constants');
+const { getUndoneAt } = require('../../helpers/time');
+const { SETTINGS, TEXT_METRICS, PIXEL_WIDTH_SETTINGS } = require('../../constants');
+
+const { Deal } = models;
 
 // List view scene
 const listViewScene = new Scene('list-view');
@@ -43,7 +44,13 @@ listViewScene.action(/^!?deal_\d+/, async (ctx) => {
   const id = data.replace(/^!?deal_/, '');
   if (id) {
     done = !done;
-    await Deal.update({ done }, { where: { id } });
+
+    let undoneAt = null;
+    if (done) {
+      undoneAt = getUndoneAt();
+    }
+    
+    await Deal.update({ done, undoneAt }, { where: { id } });
   }
 
   const { id: listId } = ctx.scene.state.list;
@@ -55,22 +62,50 @@ listViewScene.action(/^!?deal_\d+/, async (ctx) => {
 
   const deals = await findListDeals(listId);
 
-  return ctx.editMessageReplyMarkup(makeKeyboard(deals));
+  let res;
+  try {
+    res = await ctx.editMessageReplyMarkup(makeKeyboard(deals));
+  } catch (err) {
+    // Message is not modified
+  }
+
+  return res;
+});
+
+/**
+ * Removing done deals from list.
+ */
+listViewScene.action('clear', async (ctx) => {
+  const { id: listId } = ctx.scene.state.list;
+
+  await Deal.update({ cleared: true }, { where: { listId, done: true, cleared: false } });
+
+  const deals = await findListDeals(listId);
+
+  let res;
+  try {
+    res = await ctx.editMessageReplyMarkup(makeKeyboard(deals));
+  } catch (err) {
+    // Message is not modified
+  }
+
+  return res;
 });
 
 const findListDeals = (listId) =>
   Deal.findAll({
     where: {
-      listId
+      listId,
+      cleared: false
     },
     order: [['createdAt']]
   });
 
 const listOperationsButtons = [
-  Markup.callbackButton('🗑', 'delete'),
-  Markup.callbackButton('🔨', 'new'),
-  Markup.callbackButton('✏️', 'edit'),
-  Markup.callbackButton('🧽', 'clear'),
+  // Markup.callbackButton('🗑', 'delete'),
+  // Markup.callbackButton('🔨', 'new'),
+  // Markup.callbackButton('✏️', 'edit'),
+  Markup.callbackButton('🧽', 'clear')
 ];
 
 const makeDealLabel = (deal) => {

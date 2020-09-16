@@ -26,8 +26,18 @@ const TEXT_METRICS = {
   dealButtonLength: DEAL_BUTTON_LENGTH
 }
 
+const SETTINGS = {
+  timesoneOffset: -480, // +8 GMT, Irkutsk
+  undoneAt: {
+    hours: 0,
+    minutes: 0
+  }
+}
+
 
 module.exports = {
+  SETTINGS,
+
   WHEN,
   LIST_DEFAULT_NAME,
 

@@ -19,7 +19,7 @@ dealCreateScene.leave(async (ctx, next) => {
     if (descriptor) {
       const currentList  = await getCurrentList(descriptor.userId);
       descriptor.listId = currentList.id;
-  
+
       const deal = await Deal.create(descriptor);
   
       console.log(`Created deal ${deal.text}`)
