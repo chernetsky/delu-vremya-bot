@@ -5,7 +5,7 @@ const { split: chunksSplit } = require('split-text-to-chunks');
 const pixelWidth = require('string-pixel-width');
 const { models } = require('../../db/db');
 const { getCurrentList } = require('../../helpers/helpers');
-const { getUndoneAt } = require('../../helpers/time');
+const { getUndoneAt, whenIsToday } = require('../../helpers/time');
 const { TEXT_METRICS, PIXEL_WIDTH_SETTINGS } = require('../../constants');
 
 const { Deal } = models;
@@ -92,14 +92,21 @@ listViewScene.action('clear', async (ctx) => {
   return res;
 });
 
-const findListDeals = (listId) =>
-  Deal.findAll({
+const findListDeals = async (listId, checkWhen = true) => {
+  let deals = await Deal.findAll({
     where: {
       listId,
       cleared: false
     },
     order: [['createdAt']]
   });
+
+  if (checkWhen) {
+    deals = deals.filter((item) => whenIsToday(item.when));
+  }
+
+  return deals;
+}
 
 const listOperationsButtons = [
   // Markup.callbackButton('🗑', 'delete'),

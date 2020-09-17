@@ -1,5 +1,5 @@
 const moment = require('moment');
-const { SETTINGS } = require('../constants');
+const { WHEN, SETTINGS } = require('../constants');
 
 const getUndoneAt = () => {
   const {
@@ -18,7 +18,17 @@ const getUndoneAt = () => {
   return undoneAt.valueOf();
 };
 
+const whenIsToday = (when) => {
+  if (when == WHEN.EVERYDAY) return true;
+
+  const now = moment();
+  const weekDay = now.format('ddd').toLowerCase();
+  if (when.indexOf(weekDay) != -1) return true;
+
+  return false;
+};
 
 module.exports = {
-  getUndoneAt
-}
+  getUndoneAt,
+  whenIsToday
+};
