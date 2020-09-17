@@ -2,7 +2,7 @@ const { Sequelize } = require('sequelize');
 const initDeal = require('./Deal');
 const initList = require('./List');
 
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT } = process.env;
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, IS_DEV } = process.env;
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: DB_HOST,
@@ -17,10 +17,14 @@ const testConnection = async (syncOptions = null) => {
     sequelize
       .authenticate()
       .then(() => {
-        console.log('DB ... Connected');
+        if (IS_DEV) {
+          console.log('DB ... Connected');
+        }
         if (syncOptions) {
           return sequelize.sync(syncOptions).then(() => {
-            console.log('DB ... Syncronized');
+            if (IS_DEV) {
+              console.log('DB ... Syncronized');
+            }
             resolve();
           });
         } else {
@@ -28,7 +32,9 @@ const testConnection = async (syncOptions = null) => {
         }
       })
       .catch((error) => {
-        console.error('DB ... Connection error!');
+        if (IS_DEV) {
+          console.error('DB ... Connection error!');
+        }
         reject(error);
       });
   });

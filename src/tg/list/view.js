@@ -6,7 +6,7 @@ const pixelWidth = require('string-pixel-width');
 const { models } = require('../../db/db');
 const { getCurrentList } = require('../../helpers/helpers');
 const { getUndoneAt } = require('../../helpers/time');
-const { SETTINGS, TEXT_METRICS, PIXEL_WIDTH_SETTINGS } = require('../../constants');
+const { TEXT_METRICS, PIXEL_WIDTH_SETTINGS } = require('../../constants');
 
 const { Deal } = models;
 
@@ -49,7 +49,7 @@ listViewScene.action(/^!?deal_\d+/, async (ctx) => {
     if (done) {
       undoneAt = getUndoneAt();
     }
-    
+
     await Deal.update({ done, undoneAt }, { where: { id } });
   }
 

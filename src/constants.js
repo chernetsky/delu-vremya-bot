@@ -29,8 +29,8 @@ const TEXT_METRICS = {
 const SETTINGS = {
   timesoneOffset: -480, // +8 GMT, Irkutsk
   undoneAt: {
-    hours: 0,
-    minutes: 0
+    hours: 11,
+    minutes: 54
   }
 }
 
