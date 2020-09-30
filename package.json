@@ -18,8 +18,7 @@
   },
   "homepage": "https://github.com/chernetsky/delu-vremya-bot#readme",
   "devDependencies": {
-    "eslint": "^7.6.0",
-    "nodemon": "^2.0.4"
+    "eslint": "^7.6.0"
   },
   "dependencies": {
     "moment": "^2.27.0",

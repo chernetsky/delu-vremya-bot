@@ -6,11 +6,24 @@ volumes:
 
 services:
   db:
+    container_name: dvb-db
     image: postgres
     restart: unless-stopped
+    env_file: ./secrets/dvb_env
     environment:
-      POSTGRES_PASSWORD: db123
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - 5432:5432
     volumes:
       - "dbdata:/var/lib/postgresql/data"
+
+  bot:
+    build: .
+    # image: chernetsky/delu-vremya-bot
+    container_name: dvb
+    env_file: ./secrets/dvb_env
+    restart: unless-stopped
+
+networks:
+  default:
+    name: dvb-net
