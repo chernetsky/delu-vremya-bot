@@ -6,7 +6,7 @@ const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, IS_DEV } = process.env;
 const IS_DEV_BOOL = !!Number(IS_DEV);
 
 // if (IS_DEV_BOOL) {
-  console.log(DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, IS_DEV_BOOL);
+console.log(DB_NAME, DB_USER, DB_PASSWORD, DB_HOST, DB_PORT, IS_DEV_BOOL);
 // }
 
 const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
@@ -22,14 +22,11 @@ const testConnection = async (syncOptions = null) => {
     sequelize
       .authenticate()
       .then(() => {
-        if (IS_DEV_BOOL) {
-          console.log('DB ... Connected');
-        }
+        console.log('DB ... Connected');
+
         if (syncOptions) {
           return sequelize.sync(syncOptions).then(() => {
-            if (IS_DEV_BOOL) {
-              console.log('DB ... Syncronized');
-            }
+            console.log('DB ... Syncronized');
             resolve();
           });
         } else {
@@ -37,9 +34,7 @@ const testConnection = async (syncOptions = null) => {
         }
       })
       .catch((error) => {
-        if (IS_DEV_BOOL) {
-          console.error('DB ... Connection error!');
-        }
+        console.error('DB ... Connection error!');
         reject(error);
       });
   });

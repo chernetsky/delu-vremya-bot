@@ -1,0 +1,17 @@
+#
+version: '3.9'
+
+volumes:
+  dbdata:
+
+services:
+  db:
+    restart: unless-stopped
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    volumes:
+      - 'dbdata:/var/lib/postgresql/data'
+
+  bot:
+    build: .
+    restart: unless-stopped

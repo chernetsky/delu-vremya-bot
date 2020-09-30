@@ -1,0 +1,18 @@
+#
+version: '3.9'
+
+volumes:
+  dbdata:
+
+services:
+  db:
+    restart: always
+    volumes:
+      - '/var/lib/postgresql/data:/var/lib/postgresql/data'
+
+  bot:
+    image: chernetsky/delu-vremya-bot
+    restart: always
+    environment:
+      IS_DEV: 0
+      PRODUCTION: 1

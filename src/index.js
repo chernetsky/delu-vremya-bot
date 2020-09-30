@@ -1,12 +1,14 @@
 const { testDbConnection } = require('./db/db');
 const run = require('./tg/tg');
 
-testDbConnection({
-  /* force: true */
-})
+const { DB_INIT } = process.env;
+
+const syncOpts = Number(DB_INIT) ? { force: true } : void 0;
+
+testDbConnection(syncOpts)
   .then(() => run())
   .catch((error) => {
     console.error(error);
-    console.log('EXIT WITH 1');
+    console.error('EXIT WITH 1');
     process.exit(1);
   });

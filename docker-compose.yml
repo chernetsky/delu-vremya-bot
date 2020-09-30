@@ -1,28 +1,26 @@
-# 
-version: '3.1'
-
-volumes:
-  dbdata:
+#
+version: '3.9'
 
 services:
   db:
-    container_name: dvb-db
-    image: postgres
-    restart: unless-stopped
-    env_file: ./secrets/dvb_env
+    container_name: ${DB_HOST}
+    image: postgres:13-alpine
     environment:
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - 5432:5432
-    volumes:
-      - "dbdata:/var/lib/postgresql/data"
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
 
   bot:
-    build: .
-    # image: chernetsky/delu-vremya-bot
     container_name: dvb
-    env_file: ./secrets/dvb_env
-    restart: unless-stopped
+    depends_on: 
+      - db
+    environment:
+      - DB_HOST
+      - DB_USER
+      - DB_PASSWORD
+      - DB_NAME
+      - DB_PORT
+      - BOT_TOKEN
 
 networks:
   default:
